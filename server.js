@@ -8,7 +8,7 @@ const app = express();
 // Connect Database
 connectDB();
 
-const whiteList = ["http://localhost:3000", "http://localhost:3000","http://localhost:3001", "https://testt-orpin.vercel.app", "earlyoffice-demo.herokuapp.com", "https://early.vercel.app"];
+const whiteList = ["http://localhost:3000", "http://localhost:3000","http://localhost:3001", "https://testt-orpin.vercel.app", "https://greendetails.onrender.com/", "https://early.vercel.app"];
 const corsOption = {
   origin: whiteList,
   credentials: true,
