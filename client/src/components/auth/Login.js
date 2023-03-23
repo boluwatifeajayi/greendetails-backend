@@ -22,19 +22,20 @@ const Login = () => {
     password: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false); // add isLoading state
+
   const { email, password } = user;
 
   const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => { // add async to use await
     e.preventDefault();
     if (email === '' || password === '') {
       setAlert('Please fill in all fields', 'danger');
     } else {
-      login(authDispatch, {
-        email,
-        password
-      });
+      setIsLoading(true); // set isLoading to true when the login button is clicked
+      await login(authDispatch, { email, password });
+      setIsLoading(false); // set isLoading to false after the login API call is completed
     }
   };
   if (isAuthenticated) return <Navigate to='/' />;
@@ -69,9 +70,11 @@ const Login = () => {
         </div>
         <input
           type='submit'
-          value='Login'
+          value={isLoading ? "Loading..." : "Login"} 
           className='btn btn-primary btn-block'
+          disabled={isLoading} // disable the button while the login API call is in progress
         />
+       
       </form>
     </div>
   );

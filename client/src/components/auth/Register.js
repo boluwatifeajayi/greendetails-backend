@@ -17,29 +17,31 @@ const Register = (props) => {
     }
   }, [error, isAuthenticated, props.history, setAlert, authDispatch]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [user, setUser] = useState({
     name: '',
     email: '',
     password: '',
-    password2: ''
+  
   });
 
   const { name, email, password, password2 } = user;
 
   const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (name === '' || email === '' || password === '') {
       setAlert('Please enter all fields', 'danger');
-    } else if (password !== password2) {
-      setAlert('Passwords do not match', 'danger');
     } else {
-      register(authDispatch, {
+      setIsLoading(true);
+      await register(authDispatch, {
         name,
         email,
         password
       });
+      setIsLoading(false);
     }
   };
 
@@ -48,7 +50,7 @@ const Register = (props) => {
   return (
     <div className='form-container'>
       <h1>
-        Account <span className='text-primary'>Register</span>
+        Get <span className='text-primary'>Started</span>
       </h1>
       <p>Create an Account to start saving notes</p>
       <form onSubmit={onSubmit}>
@@ -86,22 +88,12 @@ const Register = (props) => {
             minLength='6'
           />
         </div>
-        <div className='form-group'>
-          <label htmlFor='password2'>Confirm Password</label>
-          <input
-            id='password2'
-            type='password'
-            name='password2'
-            value={password2}
-            onChange={onChange}
-            required
-            minLength='6'
-          />
-        </div>
+        
         <input
           type='submit'
-          value='Register'
+          value={isLoading ? 'Loading...' : 'Register'}
           className='btn btn-primary btn-block'
+          disabled={isLoading}
         />
       </form>
     </div>
