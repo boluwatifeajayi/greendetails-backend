@@ -20,6 +20,27 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// @route     GET api/contacts/:id
+// @desc      Get a single contact by ID
+// @access    Private
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const contact = await Contact.findById(req.params.id);
+
+    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
+
+    // Make sure user owns contact
+    if (contact.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
+
+    res.json(contact);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route     POST api/contacts
 // @desc      Add new contact
 // @access    Private
