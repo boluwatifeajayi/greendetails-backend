@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const db = "mongodb+srv://bolu123:bolu123@cusm.degou.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const db = "mongodb+srv://bolu:bolu123@omesh.u8dgb.mongodb.net/?retryWrites=true&w=majority";
 
 const connectDB = async () => {
   try {
