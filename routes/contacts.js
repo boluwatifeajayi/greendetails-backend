@@ -114,6 +114,9 @@ router.put('/:id', auth, async (req, res) => {
 // @route     DELETE api/contacts/:id
 // @desc      Delete contact
 // @access    Private
+// @route     DELETE api/contacts/:id
+// @desc      Delete contact
+// @access    Private
 router.delete('/:id', auth, async (req, res) => {
   try {
     const contact = await Contact.findById(req.params.id);
@@ -125,7 +128,7 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
-    await Contact.findByIdAndRemove(req.params.id);
+    await Contact.findByIdAndDelete(req.params.id);
 
     res.json({ msg: 'Contact removed' });
   } catch (err) {
@@ -133,5 +136,6 @@ router.delete('/:id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
 
 module.exports = router;
